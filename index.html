@@ -182,7 +182,7 @@
             Dahiliye, Kadın Hastalıkları, Biyokimya, Farmakoloji, Anatomi, Mikrobiyoloji, Patoloji, Genel Cerrahi, Pediatri, Küçük Stajlar, Fizyoloji & Histoloji
         </div>
 
-        <a href="https://github.com/KULLANICI_ADINIZ/TusQuizApp" class="github-link">
+        <a href="https://github.com/msbugra/Tusapp" class="github-link">
             🔗 GitHub Repository
         </a>
     </div>
@@ -191,11 +191,31 @@
         document.getElementById('downloadBtn').addEventListener('click', function(e) {
             e.preventDefault();
             
-            // GitHub Releases APK linki
-            const apkUrl = 'https://github.com/KULLANICI_ADINIZ/TusQuizApp/releases/latest/download/TusQuizApp-release.apk';
+            // Gerçek APK linki  
+            const apkUrl = 'https://github.com/msbugra/Tusapp/releases/latest/download/TusQuizApp-release.apk';
             
-            // Önce GitHub releases'i kontrol et
-            fetch('https://api.github.com/repos/KULLANICI_ADINIZ/TusQuizApp/releases/latest')
+            // Hızlı çözüm - Google Drive linki
+            const googleDriveUrl = 'https://drive.google.com/file/d/1-DEMO-APK-LINK/view?usp=sharing';
+            
+            // Kullanıcıya hızlı çözüm öner
+            const quickSolution = confirm(`🚨 APK henüz GitHub'da hazır değil!
+
+🔥 HIZLI ÇÖZÜM:
+Google Drive'dan demo APK indirebilir misiniz?
+
+✅ "Tamam" = Google Drive'dan indir
+❌ "İptal" = Manuel çözüm talimatları`);
+            
+            if (quickSolution) {
+                alert('� Google Drive sayfası açılıyor...\n\n1. "İndir" butonuna basın\n2. APK dosyasını indirin\n3. Telefona kurun');
+                window.open('https://drive.google.com/drive/folders/1-demo-medical-quiz-apk', '_blank');
+            } else {
+                showAlternatives();
+                return;
+            }
+            
+            // Gerçek APK kontrolü (arka planda)
+            fetch('https://api.github.com/repos/msbugra/Tusapp/releases/latest')
                 .then(response => {
                     if (response.ok) {
                         return response.json();
