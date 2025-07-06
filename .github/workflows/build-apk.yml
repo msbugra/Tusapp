@@ -1,0 +1,134 @@
+name: 🚀 Build and Release APK
+
+on:
+  push:
+    branches: [ main, master ]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: 🔧 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: ☕ Setup JDK 11
+      uses: actions/setup-java@v4
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+
+    - name: 🔧 Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: 📦 Install Dependencies
+      run: |
+        npm ci
+        npm install -g react-native-cli
+
+    - name: 🔑 Setup Android Keystore
+      run: |
+        echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 -d > android/app/my-upload-key.keystore
+        echo "MYAPP_UPLOAD_STORE_FILE=my-upload-key.keystore" >> android/gradle.properties
+        echo "MYAPP_UPLOAD_KEY_ALIAS=${{ secrets.KEYSTORE_ALIAS }}" >> android/gradle.properties
+        echo "MYAPP_UPLOAD_STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> android/gradle.properties
+        echo "MYAPP_UPLOAD_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> android/gradle.properties
+      if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+
+    - name: 🔨 Build Debug APK
+      run: |
+        cd android
+        chmod +x gradlew
+        ./gradlew assembleDebug
+      if: github.event_name != 'push' || !contains(github.ref, 'refs/tags/')
+
+    - name: 🔨 Build Release APK
+      run: |
+        cd android
+        chmod +x gradlew
+        ./gradlew assembleRelease
+      if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+
+    - name: 📝 Get APK Path
+      id: apk-path
+      run: |
+        if [ "${{ github.event_name }}" == "push" ] && [ "${{ contains(github.ref, 'refs/tags/') }}" == "true" ]; then
+          echo "path=android/app/build/outputs/apk/release/app-release.apk" >> $GITHUB_OUTPUT
+          echo "name=TusQuizApp-release.apk" >> $GITHUB_OUTPUT
+          echo "type=release" >> $GITHUB_OUTPUT
+        else
+          echo "path=android/app/build/outputs/apk/debug/app-debug.apk" >> $GITHUB_OUTPUT
+          echo "name=TusQuizApp-debug.apk" >> $GITHUB_OUTPUT
+          echo "type=debug" >> $GITHUB_OUTPUT
+        fi
+
+    - name: 📤 Upload APK Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ steps.apk-path.outputs.name }}
+        path: ${{ steps.apk-path.outputs.path }}
+        retention-days: 30
+
+    - name: 📊 APK Info
+      run: |
+        APK_SIZE=$(du -h ${{ steps.apk-path.outputs.path }} | cut -f1)
+        echo "📱 APK Type: ${{ steps.apk-path.outputs.type }}"
+        echo "📁 APK Size: $APK_SIZE"
+        echo "📂 APK Path: ${{ steps.apk-path.outputs.path }}"
+
+    - name: 🎉 Create Release
+      uses: softprops/action-gh-release@v1
+      if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+      with:
+        files: ${{ steps.apk-path.outputs.path }}
+        name: Dersli Quiz ${{ github.ref_name }}
+        body: |
+          ## 📱 Dersli Quiz - Turkish Medical Quiz App
+          
+          ### 🆕 What's New in ${{ github.ref_name }}
+          - Modern React Native quiz application
+          - 11 different medical categories
+          - Dark/Light theme support
+          - Offline capability
+          - Turkish language interface
+          
+          ### 📥 Installation
+          1. Download the APK file below
+          2. Enable "Unknown Sources" in Android Settings
+          3. Install the APK on your Android device
+          4. Start learning! 🎓
+          
+          ### 📋 Requirements
+          - Android 5.0+ (API 21+)
+          - 50MB free storage
+          - 2GB RAM (recommended)
+          
+          ### 🎯 Categories Available
+          - Dahiliye (Internal Medicine)
+          - Kadın Hastalıkları ve Doğum
+          - Biyokimya (Biochemistry)
+          - Farmakoloji (Pharmacology)
+          - Küçük Stajlar (Minor Clerkships)
+          - Anatomi (Anatomy)
+          - Mikrobiyoloji (Microbiology)
+          - Patoloji (Pathology)
+          - Genel Cerrahi (General Surgery)
+          - Pediatri (Pediatrics)
+          - Fizyoloji, Histoloji ve Embriyoloji
+          
+          **Happy Learning! 📚🏥**
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

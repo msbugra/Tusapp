@@ -12,7 +12,28 @@ A modern React Native quiz application for Turkish medical students preparing fo
 - **Offline Capability**: Works without internet connection
 - **Turkish Language**: Fully localized for Turkish medical students
 
-## 🚀 Quick Start
+## � Download APK (Easiest Method)
+
+### 🔥 GitHub Releases - Direct Download
+**No coding required! Just download and install:**
+
+1. **Visit Releases**: Go to [GitHub Releases](https://github.com/USERNAME/TusQuizApp/releases)
+2. **Download APK**: Click on `TusQuizApp-release.apk` 
+3. **Install on Android**: Enable "Unknown Sources" and install
+4. **Start Learning**: Open Dersli Quiz and begin studying! 🎓
+
+**Direct Download Links:**
+- **Latest Release**: `https://github.com/USERNAME/TusQuizApp/releases/latest/download/TusQuizApp-release.apk`
+- **All Releases**: `https://github.com/USERNAME/TusQuizApp/releases`
+
+### 📋 System Requirements
+- **Android**: 5.0+ (API 21+)
+- **Storage**: 50MB free space
+- **RAM**: 2GB+ recommended
+
+---
+
+## 🚀 Development Setup (For Developers)
 
 ### Prerequisites
 
