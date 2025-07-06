@@ -174,9 +174,37 @@ const lightTheme = {
 };
 ```
 
-## 📱 Building for Production
+## 📱 Building APK Files
 
-### Android APK
+### Easy APK Build (Recommended)
+
+**For Linux/macOS:**
+```bash
+chmod +x build-apk.sh
+./build-apk.sh
+```
+
+**For Windows:**
+```cmd
+build-apk.bat
+```
+
+The script will automatically:
+- ✅ Check dependencies
+- ✅ Create missing configuration files  
+- ✅ Build debug/release APK
+- ✅ Copy APK to project root
+- ✅ Provide installation instructions
+
+### Manual APK Build
+
+**Debug APK (for testing):**
+```bash
+cd android
+./gradlew assembleDebug
+```
+
+**Release APK (for distribution):**
 ```bash
 cd android
 ./gradlew assembleRelease
