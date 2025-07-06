@@ -1,0 +1,45 @@
+🏥 Dersli Quiz - TUS Hazırlık Uygulaması
+=======================================
+
+📱 APK Bilgileri:
+- Versiyon: 1.0.0
+- Package: com.dersliquiz
+- Min SDK: Android 5.0 (API 21)
+- Target SDK: Android 13 (API 33)
+- Boyut: ~15MB (tahmini)
+
+🎯 Özellikler:
+✅ 1000+ Tıp Sorusu
+✅ 11 Farklı Kategori
+✅ Offline Çalışma
+✅ Koyu/Açık Tema
+✅ Detaylı Sonuç Analizi
+✅ Türkçe Arayüz
+
+📚 Kategoriler:
+• 🫀 Dahiliye (Internal Medicine)
+• 👶 Kadın Hastalıkları ve Doğum
+• 🧬 Biyokimya (Biochemistry)
+• 💊 Farmakoloji (Pharmacology)
+• 🩺 Küçük Stajlar (Minor Clerkships)
+• 🦴 Anatomi (Anatomy)
+• 🦠 Mikrobiyoloji (Microbiology)
+• 🔬 Patoloji (Pathology)
+• 🏥 Genel Cerrahi (General Surgery)
+• 👶 Pediatri (Pediatrics)
+• 🧠 Fizyoloji, Histoloji ve Embriyoloji
+
+📥 Kurulum Talimatları:
+1. APK dosyasını indirin
+2. Android cihazında "Bilinmeyen Kaynaklar"ı açın
+   • Ayarlar → Güvenlik → Bilinmeyen Kaynaklar
+3. APK dosyasını açın ve kurun
+4. "Dersli Quiz" uygulamasını açın
+5. TUS hazırlığınıza başlayın!
+
+🔗 Linkler:
+• GitHub: https://github.com/msbugra/Tusapp
+• Web Versiyonu: https://msbugra.github.io/Tusapp/
+• İletişim: GitHub Issues
+
+⚠️ Not: Bu demo APK'dır. Gerçek APK GitHub Releases'ten indirilecek.
